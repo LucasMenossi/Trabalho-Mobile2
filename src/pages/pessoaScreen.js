@@ -83,7 +83,7 @@ const mapStateToProps = state => {
   
     const keys = Object.keys(listaPessoas);
     const listaPessoasWithId = keys.map(key => {
-     return { ...listaPessoas[key], id: key }
+     return {...listaPessoas[key], id: key }
     })
     return {pessoas : listaPessoasWithId};
   }

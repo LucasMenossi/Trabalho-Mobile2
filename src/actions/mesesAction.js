@@ -1,6 +1,5 @@
 import firebase from 'firebase'
 import { Alert } from 'react-native'
-import { resolve } from 'dns'
 
 export const SET_MESES = 'SET_MESES'
 const setMeses = meses => ({
@@ -28,7 +27,7 @@ export const deleteMes = mes => {
         return new Promise((resolve, reject) => {
             Alert.alert(
                 'Exclusão',
-                `Você deseja excluir o mês de ${mes.mes}?`,
+                `Você deseja excluir o mês de ${mes.name}?`,
                 [{
                     text: 'Não',
                     onPress: () => {

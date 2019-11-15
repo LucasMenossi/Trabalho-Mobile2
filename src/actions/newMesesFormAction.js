@@ -1,7 +1,6 @@
 import firebase from 'firebase'
 
 export const SET_FIELD = 'SET_FIELD'
-
 export const setField = (field, value) => {
     return {
         type: SET_FIELD,
@@ -23,9 +22,9 @@ export const setAllFields = mes => ({
     mes: mes
 })
 
-export const REST_FORM = 'REST_FORM'
+export const RESET_FORM = 'RESET_FORM'
 export const resetForm = () => ({
-    type: REST_FORM
+    type: RESET_FORM
 })
 
 export const saveMes = mes => {
