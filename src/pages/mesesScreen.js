@@ -1,8 +1,10 @@
 import React from 'react';
 import { Text, View, Button, StyleSheet} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import { connect } from 'react-redux'
+import { watchMeses } from '../actions'
 
-export default class mesesScreen extends React.Component{
+class mesesScreen extends React.Component{
 
 
     constructor(props){
