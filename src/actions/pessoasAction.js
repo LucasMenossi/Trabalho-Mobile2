@@ -28,7 +28,7 @@ export const deletePessoa = pessoa => {
         return new Promise((resolve, reject) => {
             Alert.alert(
                 'Exclusão',
-                `Você deseja excluir ${pessoa.nome}?`,
+                `Você deseja excluir ${pessoa.name}?`,
                 [{
                     text: 'Não',
                     onPress: () => {
