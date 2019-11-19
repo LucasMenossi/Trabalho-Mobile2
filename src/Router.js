@@ -6,6 +6,7 @@ import contaScreen from './pages/contaScreen';
 import mesesScreen from './pages/mesesScreen';
 import NewPessoaScreen from './pages/NewPessoaScreen'
 import PessoaDetailScreen from './pages/PessoaDetailScreen'
+import NewMesScreen from './pages/NewMesScreen'
 
 const AppNavigator = createStackNavigator({
   'Login': {
@@ -89,6 +90,20 @@ const AppNavigator = createStackNavigator({
         backgroundColor: 'black',
       },
       headerTintColor: 'white'
+    }
+  },
+  'NewMesScreen': {
+    screen: NewMesScreen,
+    navigationOptions: ({navigation}) => {
+      if(navigation.state.params && navigation.state.params.pmesToEdit) {
+        return {
+          title: navigation.state.params.mesToEdit.name
+        }
+      }
+
+      return {
+        title: 'Adicionar mês'
+      }
     }
   }
 });

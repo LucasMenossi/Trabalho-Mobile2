@@ -3,7 +3,7 @@ import { Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import { TextInput, FlatList } from 'react-native-gesture-handler';
 import FormRow from '../components/FormRow';
 import { connect } from 'react-redux';
-import { watchPessoas } from '../actions'
+import { watchPessoas, setAllFieldsMes } from '../actions'
 
 class pessoaScreen extends React.Component{
 

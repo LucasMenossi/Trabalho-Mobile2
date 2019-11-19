@@ -1,9 +1,9 @@
 import firebase from 'firebase'
 
 export const SET_FIELD_MES = 'SET_FIELD_MES'
-export const setField = (field, value) => {
+export const setFieldMes = (field, value) => {
     return {
-        type: SET_FIELD,
+        type: SET_FIELD_MES,
         field,
         value
     }
@@ -17,14 +17,14 @@ export const mesSavedSucess = () => {
 }
 
 export const SET_ALL_FIELDS_MES = 'SET_ALL_FIELDS_MES'
-export const setAllFields = mes => ({
-    type: SET_ALL_FIELDS,
+export const setAllFieldsMes = mes => ({
+    type: SET_ALL_FIELDS_MES,
     mes: mes
 })
 
 export const RESET_FORM_MES = 'RESET_FORM_MES'
-export const resetForm = () => ({
-    type: RESET_FORM
+export const resetFormMes = () => ({
+    type: RESET_FORM_MES
 })
 
 export const saveMes = mes => {
@@ -33,15 +33,16 @@ export const saveMes = mes => {
     return async dispatch => {
         if(mes.id) {
             await firebase
-                .database()
-                .ref(`/users/${currentUser.uid}/meses/${mes.id}`)
-                .set(mes)
+            .database()
+            .ref(`/users/${currentUser.uid}/meses/${mes.id}`)
+            .set(mes)
         } else {
             await firebase
                 .database()
                 .ref(`/users/${currentUser.uid}/meses`)
                 .push(mes)
         }
-        dispatch(mesSavedSucess())
+
+        dispatch(mesSavedSucess());
     }
 }
