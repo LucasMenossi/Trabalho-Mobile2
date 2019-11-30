@@ -4,6 +4,8 @@ import newPessoaForm from './newPessoaForm';
 import pessoaReducer from './pessoaReducer';
 import mesesReducer from './mesesReducer';
 import newMesForm from './newMesForm'
+import despesasReducer from './despesasReducer'
+import newDespesaForm from './newDespesaForm'
 
 export default combineReducers({
   user: userReducer,
@@ -11,4 +13,6 @@ export default combineReducers({
   listaPessoas: pessoaReducer,
   mesForm: newMesForm,
   listaMeses: mesesReducer,
+  despesaForm: newDespesaForm,
+  listaDespesas: despesasReducer,
 });

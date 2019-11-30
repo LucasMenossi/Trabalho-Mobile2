@@ -1,55 +1,84 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Button, FlatList, Alert, TouchableOpacity } from 'react-native';
 import FormRow from '../components/FormRow'
 import { TextInput } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
+import { watchDespesas, deleteDespesa, setFieldDespesa, saveDespesa, setAllFieldsDespesa, resetFormDespesa } from '../actions'
 
-export default class contaScreen extends React.Component{
+class contaScreen extends React.Component{
+
+    constructor(props) {
+        super(props)
+    }
+    componentDidMount() {
+        this.props.watchDespesas(this.props.navigation.state.params.mes);
+        const {navigation, setAllFieldsDespesa, resetFormDespesa} = this.props;
+        const {params} = navigation.state
+
+        if(params && params.despesaToEdit) {
+            setAllFieldsDespesa(params.despesaToEdit) 
+        } else {
+            resetFormDespesa();
+        }
+    }
 
     render() {
+        const { despesaForm, setFieldDespesa, saveDespesa, navigation, resetFormDespesa } = this.props;
+        const { mes } = this.props.navigation.state.params
+
         return (
-            <View>
+            <ScrollView>
+                <Text style={styles.label}>Lista de despesas do Mês</Text>
                 <FormRow>
-                    <Text style={styles.label}>Água</Text>
-                    <TextInput 
-                        placeholder="Valor da conta de água"
-                        style={styles.textInput}
-                        keyboardType={'numeric'}
-                    />           
+                    <TextInput
+                        placeholder="Tipo da despesa"
+                        value={this.props.despesaForm.name}
+                        onChangeText={value => setFieldDespesa('name', value)}
+                    />
                 </FormRow>
-                <FormRow>
-                    <Text style={styles.label}>Luz</Text>
-                    <TextInput 
-                        placeholder="Valor da conta de luz"
-                        style={styles.textInput}
-                        keyboardType={'numeric'}
-                    />           
-                </FormRow>
-                <FormRow>
-                    <Text style={styles.label}>Telefone</Text>
-                    <TextInput 
-                        placeholder="Valor da conta de telefone"
-                        style={styles.textInput}
-                        keyboardType={'numeric'}
-                    />           
-                </FormRow>
-                <FormRow>
-                    <Text style={styles.label}>Limpeza</Text>
-                    <TextInput 
-                        placeholder="Valor da limpeza do mês"
-                        style={styles.textInput}
-                        keyboardType={'numeric'}
-                    />           
-                </FormRow>
-                <FormRow>
-                    <Text style={styles.label}>Outros</Text>
-                    <TextInput 
-                        placeholder="Valor de outras contas"
-                        style={styles.textInput}
-                        keyboardType={'numeric'}
-                    />           
-                </FormRow>
+                <Button
+                    title="Adicionar Despesa"
+                    onPress={async () => {
+                        try {
+                            await saveDespesa(this.props.despesaForm, mes)
+                            resetFormDespesa()
+                        } catch (error) {
+                            Alert.alert('Erro', error.message)
+                        }
+                    }}
+                />
+                <FlatList
+                    data={this.props.despesa}
+                    renderItem={({item}) => {
+                        return (
+                            <FormRow>
+                                <TouchableOpacity 
+                                    onPress={() => this.props.navigation.navigate("AlterarDespesa", {despesaToEdit : item, mes : mes})}
+                                    style={{backgroundColor:"red"}}>
+                                    <Text style={styles.label}>{item.name}</Text>
+                                </TouchableOpacity>
+                                <TextInput 
+                                    placeholder="Valor da conta de "
+                                    style={styles.textInput}
+                                    keyboardType={'numeric'}
+                                />
+                                <Button 
+                                    title="Excluir"
+                                    color="red"
+                                    onPress={ async ()=> {
+                                        const hasDeleted = await this.props.deleteDespesa(item, mes)
+                                        if(hasDeleted) {
+                                            Alert.alert('Despesa excluida', `A despesa ${item.name} foi excluida com sucesso!`)
+                                        }
+                                    }}
+                                />           
+                            </FormRow>
+                        )
+                    }}
+                    keyExtractor={item => item.id}
+                />
                 <Text style={styles.textTotal}>Total do mês: R$ 250,00</Text>
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -73,3 +102,31 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
   });
+
+  const mapStateToProps = state => {
+    const {listaDespesas} = state;
+  
+    if(listaDespesas === null) {
+      return {despesa: listaDespesas, despesaForm: state.despesaForm};
+    }
+  
+    const keys = Object.keys(listaDespesas);
+    const listaDespesasWithId = keys.map(key => {
+     return {...listaDespesas[key], id: key }
+    })
+    return {despesa : listaDespesasWithId, despesaForm: state.despesaForm};
+  }
+  
+  const mapDispatchToProps = {
+    setFieldDespesa,
+    saveDespesa,
+    setAllFieldsDespesa,
+    resetFormDespesa,
+    watchDespesas,
+    deleteDespesa
+  }
+  
+  export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+  )(contaScreen);

@@ -41,7 +41,7 @@ class mesesScreen extends React.Component{
                 <Text style={styles.label}>Selecione o mês para adicionar as despesas do mês</Text>
                 <FormRow>
                     <Picker
-                        selectedValue={this.props.name}
+                        selectedValue={mesForm.name}
                         onValueChange={itemValue => {
                             setFieldMes('name', itemValue)
                         }
@@ -78,7 +78,10 @@ class mesesScreen extends React.Component{
                                 <Button 
                                     title={item.name}
                                     color='#eead2d'
-                                    onPress = {() => this.props.navigation.navigate("Despesas")}
+                                    onPress = {() => {
+                                        setAllFieldsMes(this.props.mesForm)
+                                        this.props.navigation.navigate("Despesas", {mes: item})}
+                                    }
                                     style={styles.buttonDespesa}
                                 />
                                 <Button
@@ -138,7 +141,7 @@ const mapStateToProps = state => {
     const {listaMeses} = state;
   
     if(listaMeses === null) {
-      return {mes: listaMeses};
+      return {mes: listaMeses, mesForm: state.mesForm};
     }
   
     const keys = Object.keys(listaMeses);

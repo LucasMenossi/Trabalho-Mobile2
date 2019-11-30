@@ -3,7 +3,7 @@ import { Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import { TextInput, FlatList } from 'react-native-gesture-handler';
 import FormRow from '../components/FormRow';
 import { connect } from 'react-redux';
-import { watchPessoas, setAllFieldsMes } from '../actions'
+import { watchPessoas, setField, savePessoa, setAllFields, resetForm } from '../actions'
 
 class pessoaScreen extends React.Component{
 
@@ -13,12 +13,39 @@ class pessoaScreen extends React.Component{
 
     componentDidMount() {
         this.props.watchPessoas();
+        const {navigation, setAllFields, resetForm} = this.props;
+        const {params} = navigation.state
+
+        if(params && params.pessoaToEdit) {
+            setAllFields(params.pessoaToEdit) 
+        } else {
+            resetForm();
+        }
     }
 
     render() {
+        const { pessoaForm, setField, savePessoa, navigation, resetForm } = this.props;
         return (
             <View>
                 <Text style={styles.label}>Lista de moradores da República</Text>
+                <FormRow>
+                    <TextInput
+                        placeholder="Nome da pessoa"
+                        value={this.props.name}
+                        onChangeText={value => setField('name', value)}
+                    />
+                </FormRow>
+                <Button
+                    title="Adicionar morador"
+                    onPress={async () => {
+                        try {
+                            await savePessoa(pessoaForm)
+                            resetForm()
+                        } catch (error) {
+                            Alert.alert('Erro', erro.message)
+                        }
+                    }}
+                />
                 <FlatList
                     data={this.props.pessoas}
                     renderItem={({item}) => {
@@ -35,10 +62,6 @@ class pessoaScreen extends React.Component{
                     style={styles.buttonStyle}
                     onPress={() => this.props.navigation.navigate("Meses")}
                 ><Text style={styles.textStyle}>Meses</Text></TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    onPress={() => this.props.navigation.navigate("NewPessoaScreen")}
-                ><Text style={styles.textStyle}>Inserir Pessoa</Text></TouchableOpacity>
             </View>
         )
     }
@@ -85,11 +108,18 @@ const mapStateToProps = state => {
     const listaPessoasWithId = keys.map(key => {
      return {...listaPessoas[key], id: key }
     })
-    return {pessoas : listaPessoasWithId};
+    return {pessoas : listaPessoasWithId, pessoaForm: state.pessoaForm};
   }
   
+  const mapDispatchToProps = {
+    setField,
+    savePessoa,
+    setAllFields,
+    resetForm,
+    watchPessoas
+  }
   
   export default connect(
     mapStateToProps, 
-    {watchPessoas}
+    mapDispatchToProps
   )(pessoaScreen);
