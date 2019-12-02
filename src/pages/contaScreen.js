@@ -34,6 +34,7 @@ class contaScreen extends React.Component{
         } else {
             resetFormDespesa();
         }
+        this.calculateSum()
     }
 
     render() {

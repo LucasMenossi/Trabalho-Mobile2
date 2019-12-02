@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Button, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import { TextInput, FlatList } from 'react-native-gesture-handler';
 import FormRow from '../components/FormRow';
+import ActionButton from '../components/ActionButton'
 import { connect } from 'react-redux';
 import { watchPessoas, setField, savePessoa, setAllFields, resetForm } from '../actions'
 
@@ -10,7 +11,6 @@ class pessoaScreen extends React.Component{
     constructor(props) {
         super(props)
     }
-
     componentDidMount() {
         this.props.watchPessoas();
         const {navigation, setAllFields, resetForm} = this.props;
@@ -24,7 +24,7 @@ class pessoaScreen extends React.Component{
     }
 
     render() {
-        const { pessoaForm, setField, savePessoa, navigation, resetForm } = this.props;
+        const { pessoaForm, setField, savePessoa, navigation, resetForm} = this.props;
         return (
             <View>
                 <Text style={styles.label}>Lista de moradores da República</Text>
@@ -58,10 +58,11 @@ class pessoaScreen extends React.Component{
                     }}
                     keyExtractor={item => item.id}
                 />
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={() => this.props.navigation.navigate("Meses")}
-                ><Text style={styles.textStyle}>Meses</Text></TouchableOpacity>
+                ><Text style={styles.textStyle}>Meses</Text></TouchableOpacity> */}
+                <ActionButton title="Meses" onNavigate={() => this.props.navigation.navigate("Meses")}/>
             </View>
         )
     }

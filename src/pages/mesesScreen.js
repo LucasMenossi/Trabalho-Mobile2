@@ -12,16 +12,6 @@ class mesesScreen extends React.Component{
         super(props);
     }
 
-    // retornaListaMeses () {
-    //     return this.state.meses.map((month) => {
-    //         return (
-    //             <View style={styles.container}>
-                    
-    //             </View>
-    //         )
-    //     })
-    // }
-
     componentDidMount() {
         this.props.watchMeses();
         const { navigation, setAllFieldsMes, resetFormMes} = this.props
