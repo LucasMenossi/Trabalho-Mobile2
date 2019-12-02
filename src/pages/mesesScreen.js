@@ -66,7 +66,7 @@ class mesesScreen extends React.Component{
                         try{
                             await saveMes(mesForm)
                         } catch(e) {
-                            Alert.alert('Erro', erro.message)
+                            Alert.alert('Erro', error.message)
                         }
                     }}
                 />

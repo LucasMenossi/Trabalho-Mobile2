@@ -9,7 +9,21 @@ class contaScreen extends React.Component{
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            value: 0,
+            sum: 0
+        }
     }
+
+    calculateSum = () => {
+        const { value, sum } = this.state
+
+        this.setState({
+            sum: Number(value) + Number(sum)
+        })
+    }
+
     componentDidMount() {
         this.props.watchDespesas(this.props.navigation.state.params.mes);
         const {navigation, setAllFieldsDespesa, resetFormDespesa} = this.props;
@@ -58,9 +72,10 @@ class contaScreen extends React.Component{
                                     <Text style={styles.label}>{item.name}</Text>
                                 </TouchableOpacity>
                                 <TextInput 
-                                    placeholder="Valor da conta de "
+                                    placeholder="Valor da conta de"
                                     style={styles.textInput}
                                     keyboardType={'numeric'}
+                                    onChangeText={(value) => this.setState({value})}
                                 />
                                 <Button 
                                     title="Excluir"
@@ -71,13 +86,18 @@ class contaScreen extends React.Component{
                                             Alert.alert('Despesa excluida', `A despesa ${item.name} foi excluida com sucesso!`)
                                         }
                                     }}
-                                />           
+                                />          
                             </FormRow>
                         )
-                    }}
+                    }
+                }
                     keyExtractor={item => item.id}
                 />
-                <Text style={styles.textTotal}>Total do mês: R$ 250,00</Text>
+                <Button
+                    title={'Calcular'}
+                    onPress={() => this.calculateSum()}
+                /> 
+                <Text style={styles.textTotal}>{`Total do mês: ${this.state.sum}`}</Text>
             </ScrollView>
         )
     }

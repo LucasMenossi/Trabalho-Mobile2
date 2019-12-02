@@ -36,6 +36,7 @@ export const savePessoa = pessoa => {
             .database()
             .ref(`/users/${currentUser.uid}/pessoas/${pessoa.id}`)
             .set(pessoa)
+            
         } else {
             await firebase
                 .database()

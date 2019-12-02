@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import { Text, View, Button, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import { TextInput, FlatList } from 'react-native-gesture-handler';
 import FormRow from '../components/FormRow';
 import { connect } from 'react-redux';
@@ -39,10 +39,10 @@ class pessoaScreen extends React.Component{
                     title="Adicionar morador"
                     onPress={async () => {
                         try {
-                            await savePessoa(pessoaForm)
+                            await savePessoa(this.props.pessoaForm)
                             resetForm()
                         } catch (error) {
-                            Alert.alert('Erro', erro.message)
+                            Alert.alert('Erro', error.message)
                         }
                     }}
                 />

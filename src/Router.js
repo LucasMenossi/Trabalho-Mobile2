@@ -7,6 +7,7 @@ import mesesScreen from './pages/mesesScreen';
 import NewPessoaScreen from './pages/NewPessoaScreen'
 import PessoaDetailScreen from './pages/PessoaDetailScreen'
 import AlterarDespesaScreen from './pages/AlterarDespesaScreen'
+import DetailsScreen from './pages/DetailsScreen'
 
 const AppNavigator = createStackNavigator({
   'Login': {
@@ -22,6 +23,21 @@ const AppNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: 'black',
       }
+    },
+  },
+  'Details': {
+    screen: DetailsScreen,
+    navigationOptions: {
+      title: 'Detalhes',
+      headerTitleStyle: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'white'
+      },
+      headerStyle: {
+        backgroundColor: 'black',
+      },
+      headerTintColor: 'white'
     },
   },
   'Pessoas': {

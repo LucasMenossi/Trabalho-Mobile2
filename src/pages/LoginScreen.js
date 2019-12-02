@@ -55,7 +55,7 @@ class LoginScreen extends React.Component {
       .then( user => {
 
         if(user) {
-          this.props.navigation.replace('Pessoas');
+          this.props.navigation.replace('Details');
         } else {
 
           this.setState({
